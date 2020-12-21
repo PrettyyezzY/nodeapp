@@ -1,0 +1,35 @@
+<nav>
+
+    <div class="site-title">
+
+        <a href="/"><h1>item Ninja</h1></a>
+
+        <p> test test </p>
+
+    </div>
+    <div class="NavButtons">
+        <% if (isAuthenticated) { %>
+        <a href="/user">
+            <div class="NavButton"> 
+                <p>Just dive in <%-user.nickname %></p>
+             </div>
+        </a>
+        <% }else {%>
+        <a href="/login">
+            <div class="NavButton"> 
+                <p>Log in!</p>
+             </div>
+        </a>
+        <% } %>
+    </div>
+    <ul>
+
+        <li><a href="/">items</a></li>
+
+        <li><a href="/about">About</a></li>
+
+        <li><a href="/items/create">New item</a></li>
+
+    </ul>
+
+</nav>

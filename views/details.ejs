@@ -1,0 +1,68 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+<body>
+  <%- include("./partials/nav.ejs") %>
+
+  <div class="details content">
+    <h2><%= blog.title %></h2>
+    <div class="content">
+    <a class="delete" data-doc="<%= item._id %>">
+      <img src="/trashcan.svg" alt="delete icon" />
+    </a>
+  
+  <article>
+    <div class='left'>
+        <img src='' alt='item photo'/>
+    </div>
+    <div class='right'>
+        <h1 class='right-title'><%= item.title %></h1>
+        <div class='right-quantity'>
+            <span class='right-quantity-label'>Quantity:</span>
+            <span class='right-quantity-value'><%= item.quantity %> </span>
+        </div>
+        <div class='right-price'>
+            <span class='right-price-label'>Price:</span>
+            <span class='right-price-value'><%= item.value %> </span>
+        </div>
+        <div class='right-buy'>
+            <% if (isAuthenticated) { %>
+              <form action="/shops" method="POST">
+                <input type="hidden" id="item" name="item" value="<%= item._id %>" required>
+                <input type="hidden" id="buyer" name="buyer" value="<%-user.nickname %>" required>
+                <input type="hidden" id="status" name="status" value="false" required>
+                <button class='right-buy-button-buy' >Kup</button>
+            </form>
+              
+            <% }else {%>
+              <a href="/login">
+                <button class='right-buy-button-login' >Zaloguj się</button>
+              </a>
+              <% } %>
+            
+        </div>
+    </div>
+    <div class='bottom'>
+        <p class='bottom-describe'><%= item.describe %></p>
+    </div>
+</article>
+</div></div>
+
+
+  <%- include("./partials/footer.ejs") %>
+
+  <script>
+    const trashcan = document.querySelector('a.delete');
+    trashcan.addEventListener('click', (e) => {
+      const endpoint = `/items/${trashcan.dataset.doc}`;
+      fetch(endpoint, {
+        method: 'DELETE'
+      })
+      .then(response => response.json())
+      .then(data => window.location.href = data.redirect)
+      .catch(err => console.log(err));
+    });
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<html lang="en">
+
+    <%- include('./partials/head.ejs') %>
+
+<body>
+
+    <%- include('./partials/nav.ejs') %>
+
+
+
+    <div class="items content">
+
+        <h2>All items</h2>
+
+        <% if (items.length > 0) { %>
+            <% items.forEach(item => { %>
+
+                <a class ="single" href="/items/<%= item._id %>">
+                    <h3 class='title'> <%= item.title %>  </h3>
+                    <p class="snippet"> <%= item.describe %> </p> 
+                </a>
+            <% }); %>     
+        <% } else { %>
+                <p> there is no items there :( </p>
+            <% } %>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+
+</body>
+
+</html>
