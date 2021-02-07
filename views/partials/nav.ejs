@@ -2,41 +2,20 @@
 
     <div class="site-title">
 
-        <a href="/"><h1>item Ninja</h1></a>
+        <a href="/"><h1>Luxury Flavour</h1></a>
 
-        <p> test test </p>
+        <p> Unique premium goods </p>
 
     </div>
-    <div class="NavButtons">
-        <% if (isAuthenticated) { %>
-        <a href="/user">
-            <div class="NavButton"> 
-                <p>Just dive in <%-user.nickname %></p>
-             </div>
-        </a>
-        <% }else {%>
-        <a href="/login">
-            <div class="NavButton"> 
-                <p>Log in!</p>
-             </div>
-        </a>
-        <% } %>
-    </div>
-    <ul>
+    <div class="site-nav">
+        <ul>
 
-        <li><a href="/">Sklep</a></li>
-        <% if (isAuthenticated) { %>
-        <li><a href="/shops">Koszyk</a></li>
-        <% } %>
-        <li><a href="/about">O nas</a></li>
-      
-        <% if (isAuthenticated) { %>
-            <li><a href="/logout">Wyloguj</li>
-                <%- include('./auth.ejs') %>
-        <% } else {%>
-            <li><a href="/login">Zaloguj</li>
+            <li><a href="/">Sklep</a></li>
+            <% if (isAuthenticated) { %>
+                <li><a href="/shops">Koszyk</a></li>
             <% } %>
+            <li><a href="/about">O nas</a></li>
 
-    </ul>
+        </ul>
 
 </nav>
