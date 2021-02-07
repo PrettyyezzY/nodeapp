@@ -24,11 +24,18 @@
     </div>
     <ul>
 
-        <li><a href="/">items</a></li>
-
-        <li><a href="/about">About</a></li>
-
-        <li><a href="/items/create">New item</a></li>
+        <li><a href="/">Sklep</a></li>
+        <% if (isAuthenticated) { %>
+        <li><a href="/shops">Koszyk</a></li>
+        <% } %>
+        <li><a href="/about">O nas</a></li>
+      
+        <% if (isAuthenticated) { %>
+            <li><a href="/logout">Wyloguj</li>
+                <%- include('./auth.ejs') %>
+        <% } else {%>
+            <li><a href="/login">Zaloguj</li>
+            <% } %>
 
     </ul>
 

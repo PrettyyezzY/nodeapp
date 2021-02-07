@@ -59,7 +59,7 @@ const user_logout = ((req, res) => {
   });
 const user_profile = (secured(), function (req, res, next) {
     const { _raw, _json, ...userProfile } = req.user;
-    console.log(req.user.nickname);
+    console.log(req.user.id);
     res.render('user', {
       userProfile: JSON.stringify(userProfile, null, 2),
       title: 'Profile page'

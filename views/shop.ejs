@@ -13,21 +13,30 @@
         <div class='center'>
             <% if (shops.length > 0) { %>
                 <% shops.forEach(shop => { %>
-    
+                  <% if(user.id == shop.buyer){ %>
+                    <% if(!shop.status){ %>
                     <div class ="single" >
                         <h3 class='title'> <%= shop.item %>  </h3>
                         <a class="delete" data-doc="<%= shop._id %>">
                             <img src="/trashcan.svg" alt="delete icon" />
                           </a>
                     </div>
-                <% }); %>     
+                <% }}}); %>     
             <% } else { %>
                     <p> there is no items there :( </p>
                 <% } %>
         </div>
-        <div class='footer'>
-            <button class='footer-confirm'>Potwierdź</button>
-        </div>
+  
+        <% if (shops.length > 0) { %>
+          <% shops.forEach(shop => { %>
+            <% if(user.id == shop.buyer){ %>
+            <div class='footer'>
+              <button class='footer-confirm' data-doc="<%= shop._id %>">Potwierdź</button>
+          </div>
+            <%}}); %>     
+            <% } else { %>
+                <% } %>
+
     </article>
 
 
@@ -47,6 +56,21 @@
         });
         
       </script>
+      <script>
+        const confirmButton = document.querySelector('button.footer-confirm');
+        confirmButton.addEventListener('click', (e) => {
+            const endpoint = `/shops/${confirmButton.dataset.doc}`;
+          fetch(endpoint, {
+            method: 'PUT'
+          })
+          .then(response => response.json())
+          .then(data => window.location.href = data.redirect)
+          .catch(err => console.log(err));
+         
+        });
+        
+      </script>
+      
 </body>
 
 </html>

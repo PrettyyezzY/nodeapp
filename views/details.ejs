@@ -5,12 +5,11 @@
   <%- include("./partials/nav.ejs") %>
 
   <div class="details content">
-    <h2><%= blog.title %></h2>
+
     <div class="content">
-    <a class="delete" data-doc="<%= item._id %>">
-      <img src="/trashcan.svg" alt="delete icon" />
-    </a>
-  
+      <% if (isAuthenticated) { %>
+      <%- include('./partials/auth2.ejs') %>
+      <% } %>
   <article>
     <div class='left'>
         <img src='' alt='item photo'/>
@@ -29,7 +28,7 @@
             <% if (isAuthenticated) { %>
               <form action="/shops" method="POST">
                 <input type="hidden" id="item" name="item" value="<%= item._id %>" required>
-                <input type="hidden" id="buyer" name="buyer" value="<%-user.nickname %>" required>
+                <input type="hidden" id="buyer" name="buyer" value="<%-user.id %>" required>
                 <input type="hidden" id="status" name="status" value="false" required>
                 <button class='right-buy-button-buy' >Kup</button>
             </form>

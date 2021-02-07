@@ -8,6 +8,8 @@ router.post('/', shopController.shop_post);
 
 router.get('/:id', shopController.shop_details);
 
+router.put('/:id', shopController.shop_put);
+
 router.delete('/:id', shopController.shop_delete);
 
 
