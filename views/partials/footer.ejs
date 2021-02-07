@@ -1,3 +1,14 @@
 <footer>
-    Copyright &copy Skrrrt
+    Copyright &copy BF22774
+    <nav>
+    <div class="site-nav">
+        <ul>
+    <% if (isAuthenticated) { %>
+        <li><a href="/logout">Wyloguj</li>
+        <%- include('./auth.ejs') %>
+    <% } else {%>
+        <li><a href="/login">Zaloguj</li>
+    <% } %>
+        </ul>
+        </div></nav>
 </footer>

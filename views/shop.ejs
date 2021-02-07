@@ -1,76 +1,84 @@
 <html lang="en">
-
-    <%- include('./partials/head.ejs') %>
-
-<body>
-
+  <%- include('./partials/head.ejs') %>
+  <body>
     <%- include('./partials/nav.ejs') %>
-
-    <article>
+      <article class='detail'>
         <div class='top'>
-            <h1>Twoje zamówienia:</h1>
+          <h1 class='top-title'>Twoje zamówienia:</h1>
         </div>
         <div class='center'>
-            <% if (shops.length > 0) { %>
-                <% shops.forEach(shop => { %>
-                  <% if(user.id == shop.buyer){ %>
-                    <% if(!shop.status){ %>
-                    <div class ="single" >
-                        <h3 class='title'> <%= shop.item %>  </h3>
-                        <a class="delete" data-doc="<%= shop._id %>">
-                            <img src="/trashcan.svg" alt="delete icon" />
-                          </a>
-                    </div>
-                <% }}}); %>     
-            <% } else { %>
-                    <p> there is no items there :( </p>
-                <% } %>
+        <%  var j=0; var price=0;
+            if (shops.length > 0) { 
+            shops.forEach(shop => { 
+            if(user.id == shop.buyer){ 
+            if(!shop.status){ 
+                j++;
+                price += shop.item.value;
+        %>
+            <div class ="record" >
+                <img class='record-point'src="/point.svg" alt="-" />
+                <h3 class='record-title' data-doc="<%= shop._id %>"><%= shop.item.title %></h3>
+                <a class="record-delete" data-doc="<%= shop._id %>" id="<%= j%>">
+                    <img src="/trashcan.svg" alt="delete icon" />
+                </a>
+            </div>
+            <% }}});} else { %>
+                <p> there is no items there :( </p>
+            <% } %>
         </div>
-  
-        <% if (shops.length > 0) { %>
-          <% shops.forEach(shop => { %>
-            <% if(user.id == shop.buyer){ %>
-            <div class='footer'>
-              <button class='footer-confirm' data-doc="<%= shop._id %>">Potwierdź</button>
-          </div>
-            <%}}); %>     
-            <% } else { %>
-                <% } %>
+        <% const order=[]; %>
+        <% if (shops.length > 0) { 
+            var i = 0; 
+            shops.forEach(shop => { 
+            if(user.id == shop.buyer){ 
+            if(!shop.status){ 
+            order[i]= shop._id; i++; 
+            }}}); %>
+        <div class='footer'>
+                <button class='footer-price'>Do zapłaty <%= price %> złotych.</button>
+                <button class='footer-confirm'onclick="fresh()">Potwierdź</button>
 
-    </article>
 
-
+        </div>   
+         <% } else {} %>  
+       </article>
     <%- include('./partials/footer.ejs') %>
 
-    <script>
-        const trashcan = document.querySelector('a.delete');
-        trashcan.addEventListener('click', (e) => {
-            const endpoint = `/shops/${trashcan.dataset.doc}`;
-          fetch(endpoint, {
-            method: 'DELETE'
-          })
-          .then(response => response.json())
-          .then(data => window.location.href = data.redirect)
-          .catch(err => console.log(err));
-         
-        });
-        
-      </script>
-      <script>
-        const confirmButton = document.querySelector('button.footer-confirm');
-        confirmButton.addEventListener('click', (e) => {
-            const endpoint = `/shops/${confirmButton.dataset.doc}`;
-          fetch(endpoint, {
-            method: 'PUT'
-          })
-          .then(response => response.json())
-          .then(data => window.location.href = data.redirect)
-          .catch(err => console.log(err));
-         
-        });
-        
-      </script>
-      
-</body>
 
+    <script>
+        const trashcans = [...document.querySelectorAll('a.record-delete')];
+        trashcans.forEach(trashcan => {
+            trashcan.addEventListener('click', (e) => {
+                const target = (e.target.parentNode.getAttribute('data-doc'));
+                const endpoint = `/shops/${target}`;
+            fetch(endpoint, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => window.location.href = data.redirect)
+            .catch(err => console.log(err));
+            });
+            });
+    </script>
+    
+    <script>
+        function fresh(){
+            location.reload()
+        }
+    </script>
+    <script>
+        const test = document.querySelectorAll('h3.record-title');
+        const butt = document.querySelector('button.footer-confirm');
+        butt.addEventListener('click', (e) => {
+            test.forEach(el =>{
+                const endpoint = `/shops/${el.dataset.doc}`;
+                fetch(endpoint, {
+                    method: 'PUT'
+                })
+                .then(response => response.json())
+                .catch(err => console.log(err));
+            })
+        });
+    </script>
+    </body>
 </html>

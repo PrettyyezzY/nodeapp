@@ -2,7 +2,7 @@ const Shop = require('../models/shop');
 
 
 const shop_get = (req, res) => {
-    Shop.find().sort({ createdAt: -1 })
+    Shop.find().populate('item').sort({ createdAt: -1 })
     .then((result) => {
         res.render('shop', { title:  'Order', shops: result })
     })
@@ -39,10 +39,8 @@ const shop_put = (req, res) => {
             console.log(err);
         });
 };
-//TODO: Zmniejszanie ilości towaru
-//TODO: Rozliczanie kilku pozycji -> ForEach? 
-
-//TODO: Frontend 
+//TODO: Zmniejszanie ilości towaru 
+//TODO: Dane z modelu Item w /shops
 //TODO: -> Komunikat o kwocie i kontakcie
 
 //TODO: LATER -> Docker
